@@ -15,7 +15,7 @@ class MailCatcher extends Module
     /**
      * @var array
      */
-    protected $config = array('url', 'port');
+    protected $config = array('url', 'port', 'verify_ssl');
 
     /**
      * @var array
@@ -25,7 +25,13 @@ class MailCatcher extends Module
     public function _initialize()
     {
         $url = trim($this->config['url'], '/') . ':' . $this->config['port'];
-        $this->mailcatcher = new \Guzzle\Http\Client($url);
+        $configs = [];
+
+        if (array_key_exists('verify_ssl', $this->config) && $this->config['verify_ssl'] == 'true') {
+            array_push($configs, ['verify' => true]);
+        }
+
+        $this->mailcatcher = new \Guzzle\Http\Client($url, $configs);
     }
 
 
