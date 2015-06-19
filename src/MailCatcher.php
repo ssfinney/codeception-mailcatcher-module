@@ -27,8 +27,8 @@ class MailCatcher extends Module
         $url = trim($this->config['url'], '/') . ':' . $this->config['port'];
         $configs = [];
 
-        if (array_key_exists('verify_ssl', $this->config) && $this->config['verify_ssl'] == 'true') {
-            array_push($configs, ['verify' => true]);
+        if (array_key_exists('verify_ssl', $this->config) && $this->config['verify_ssl'] === false) {
+            array_push($configs, ['verify' => false]);
         }
 
         $this->mailcatcher = new \Guzzle\Http\Client($url, $configs);
